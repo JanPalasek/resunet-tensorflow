@@ -1,8 +1,4 @@
 if __name__ == "__main__":
-    import sys
-
-    sys.path.insert(0, "..")
-
     from simple_dataset import SimpleDataset
     from resunet.model import ResUNet
 
@@ -11,13 +7,10 @@ if __name__ == "__main__":
     import numpy as np
     import random
 
-    tf.config.run_functions_eagerly(True)
-
     parser = argparse.ArgumentParser()
     parser.add_argument("--train_dataset_dir_path", required=True, type=str, help="")
     parser.add_argument("--validation_dataset_dir_path", required=True, type=str, help="")
     parser.add_argument("--logs_root", default="logs", type=str)
-    parser.add_argument("--plot_model", action="store_true", default=False)
     parser.add_argument("--epochs", default=100, type=int)
     parser.add_argument("--batch_size", default=32, type=int)
     parser.add_argument("--seed", default=42, type=int)
@@ -38,5 +31,6 @@ if __name__ == "__main__":
     model = ResUNet(input_shape=(128, 128, 1), classes=2, filters_root=16, depth=3)
     model.summary()
 
-    model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["categorical_accuracy"])
+    model.compile(loss="categorical_crossentropy", optimizer="adam",
+                  metrics=["categorical_accuracy", tf.keras.metrics.MeanIoU(num_classes=2)])
     model.fit(x=x, y=y, validation_data=validation_dataset, epochs=args.epochs, batch_size=args.batch_size)
