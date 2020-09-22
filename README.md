@@ -5,7 +5,7 @@ Implements [Deep Residual U-Net](https://arxiv.org/pdf/1711.10684.pdf) for seman
 Run following script from your target python virtual environment
 
 ```shell
-python -m pip install git:https://github.com/JanPalasek/resunet-tensorflow
+python -m pip install git+https://github.com/JanPalasek/resunet-tensorflow
 ```
 
 ## Requirements
