@@ -43,15 +43,15 @@ class ResUNet(Model):
         super(ResUNet, self).__init__(input, output)
 
     def _down_res_block(self, layer: Layer, filters: int) -> Layer:
-        branch = Conv2D(filters=filters, kernel_size=3, strides=2, padding="same", use_bias=False)(layer)
+        branch = BatchNormalization()(layer)
+        branch = ReLU()(branch)
+        branch = Conv2D(filters=filters, kernel_size=3, strides=2, padding="same", use_bias=False)(branch)
+
         branch = BatchNormalization()(branch)
         branch = ReLU()(branch)
-
         branch = Conv2D(filters=filters, kernel_size=3, strides=1, padding="same", use_bias=False)(branch)
-        branch = BatchNormalization()(branch)
-        branch = ReLU()(branch)
 
-        layer = Conv2D(filters=filters, kernel_size=3, strides=2, padding="same", use_bias=False)(layer)
+        layer = Conv2D(filters=filters, kernel_size=1, strides=2, padding="same", use_bias=False)(layer)
         layer = BatchNormalization()(layer)
         layer = Add()([branch, layer])
 
@@ -61,15 +61,15 @@ class ResUNet(Model):
         layer = UpSampling2D()(layer)
         layer = Concatenate()([layer, skip_block_connection])
 
-        branch = Conv2D(filters=filters, kernel_size=3, strides=1, padding="same", use_bias=False)(layer)
-        branch = BatchNormalization()(branch)
+        branch = BatchNormalization()(layer)
         branch = ReLU()(branch)
-
         branch = Conv2D(filters=filters, kernel_size=3, strides=1, padding="same", use_bias=False)(branch)
+
         branch = BatchNormalization()(branch)
         branch = ReLU()(branch)
+        branch = Conv2D(filters=filters, kernel_size=3, strides=1, padding="same", use_bias=False)(branch)
 
-        layer = Conv2D(filters=filters, kernel_size=3, strides=1, padding="same", use_bias=False)(layer)
+        layer = Conv2D(filters=filters, kernel_size=1, strides=1, padding="same", use_bias=False)(layer)
         layer = BatchNormalization()(layer)
         layer = Add()([branch, layer])
 
