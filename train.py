@@ -20,6 +20,12 @@ if __name__ == "__main__":
     tf.random.set_seed(args.seed)
     random.seed(args.seed)
 
+    model = ResUNet(input_shape=(128, 128, 1), classes=2, filters_root=16, depth=3)
+    model.summary()
+
+    model.compile(loss="categorical_crossentropy", optimizer="adam",
+                  metrics=["categorical_accuracy", tf.keras.metrics.MeanIoU(num_classes=2)])
+
     train_dataset = list(zip(*list(SimpleDataset(args.train_dataset_dir_path)())))
     train_dataset = (np.array(train_dataset[0]), np.array(train_dataset[1]))
     x = np.array(train_dataset[0])
@@ -27,10 +33,4 @@ if __name__ == "__main__":
 
     validation_dataset = list(zip(*list(SimpleDataset(args.validation_dataset_dir_path)())))
     validation_dataset = (np.array(validation_dataset[0]), np.array(validation_dataset[1]))
-
-    model = ResUNet(input_shape=(128, 128, 1), classes=2, filters_root=16, depth=3)
-    model.summary()
-
-    model.compile(loss="categorical_crossentropy", optimizer="adam",
-                  metrics=["categorical_accuracy", tf.keras.metrics.MeanIoU(num_classes=2)])
     model.fit(x=x, y=y, validation_data=validation_dataset, epochs=args.epochs, batch_size=args.batch_size)
