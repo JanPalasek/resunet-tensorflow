@@ -8,12 +8,15 @@ if __name__ == "__main__":
     import random
 
     parser = argparse.ArgumentParser()
+
     parser.add_argument("--train_dataset_dir_path", required=True, type=str, help="")
     parser.add_argument("--validation_dataset_dir_path", required=True, type=str, help="")
     parser.add_argument("--logs_root", default="logs", type=str)
     parser.add_argument("--epochs", default=100, type=int)
     parser.add_argument("--batch_size", default=32, type=int)
+    parser.add_argument("--plot_model", action="store_true", default=False)
     parser.add_argument("--seed", default=42, type=int)
+
     args = parser.parse_args()
 
     np.random.seed(args.seed)
@@ -22,6 +25,10 @@ if __name__ == "__main__":
 
     model = ResUNet(input_shape=(128, 128, 1), classes=2, filters_root=16, depth=3)
     model.summary()
+
+    if args.plot_model:
+        from tensorflow.python.keras.utils.vis_utils import plot_model
+        plot_model(model, show_shapes=True)
 
     model.compile(loss="categorical_crossentropy", optimizer="adam",
                   metrics=["categorical_accuracy", tf.keras.metrics.MeanIoU(num_classes=2)])

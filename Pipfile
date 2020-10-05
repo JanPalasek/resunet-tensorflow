@@ -9,6 +9,8 @@ verify_ssl = true
 tensorflow = "*"
 opencv-contrib-python = "*"
 argparse = "*"
+graphviz = "*"
+pydot = "*"
 
 [requires]
 python_version = "3.6"
