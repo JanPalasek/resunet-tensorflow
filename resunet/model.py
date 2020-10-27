@@ -5,6 +5,16 @@ from resunet.blocks import ResBlock
 
 
 def ResUNet(input_shape, classes: int, filters_root: int = 64, depth: int = 3):
+    """
+    Builds ResUNet model.
+    :param input_shape: Shape of the input images.
+    :param classes: Number of classes that will be predicted for each pixel.
+    :param filters_root: Number of filters in the root block.
+    :param depth: Depth of the architecture.
+    :return: Tensorflow model instance.
+    """
+    assert classes >= 2, "There has to be prediction for at least 2 classes."
+
     input = Input(shape=input_shape)
 
     layer = input

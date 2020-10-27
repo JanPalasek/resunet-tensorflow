@@ -9,8 +9,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--train_dataset_dir_path", required=True, type=str, help="")
-    parser.add_argument("--validation_dataset_dir_path", required=True, type=str, help="")
+    parser.add_argument("--train_dataset_dir_path", required=True, type=str, help="Path to the training dataset. Expects 'images' and 'masks' directory inside with images and masks named the same.")
+    parser.add_argument("--validation_dataset_dir_path", required=True, type=str, help="Path to the validation dataset. Expects 'images' and 'masks' directory inside with images and masks named the same.")
     parser.add_argument("--logs_root", default="logs", type=str)
     parser.add_argument("--epochs", default=100, type=int)
     parser.add_argument("--batch_size", default=32, type=int)
@@ -31,7 +31,7 @@ if __name__ == "__main__":
         plot_model(model, show_shapes=True)
 
     model.compile(loss="categorical_crossentropy", optimizer="adam",
-                  metrics=["categorical_accuracy", tf.keras.metrics.MeanIoU(num_classes=2)])
+                  metrics=["categorical_accuracy"])
 
     train_dataset = list(zip(*list(SimpleDataset(args.train_dataset_dir_path)())))
     train_dataset = (np.array(train_dataset[0]), np.array(train_dataset[1]))

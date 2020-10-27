@@ -2,6 +2,9 @@ from tensorflow.keras.layers import *
 
 
 class ResBlock(Layer):
+    """
+    Represents the Residual Block in the ResUNet architecture.
+    """
     def __init__(self, filters, strides, **kwargs):
         super(ResBlock, self).__init__(**kwargs)
         self.filters = filters
