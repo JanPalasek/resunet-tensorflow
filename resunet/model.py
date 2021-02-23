@@ -7,7 +7,7 @@ from resunet.blocks import ResBlock
 def ResUNet(input_shape, classes: int, filters_root: int = 64, depth: int = 3):
     """
     Builds ResUNet model.
-    :param input_shape: Shape of the input images.
+    :param input_shape: Shape of the input images (h, w, c). Note that h and w must be powers of 2.
     :param classes: Number of classes that will be predicted for each pixel.
     :param filters_root: Number of filters in the root block.
     :param depth: Depth of the architecture.
@@ -23,6 +23,8 @@ def ResUNet(input_shape, classes: int, filters_root: int = 64, depth: int = 3):
     encoder_blocks = []
 
     filters = filters_root
+    layer = Conv2D(filters=filters, kernel_size=3, strides=1, padding="same")(layer)
+
     branch = Conv2D(filters=filters, kernel_size=3, strides=1, padding="same", use_bias=False)(layer)
     branch = BatchNormalization()(branch)
     branch = ReLU()(branch)
