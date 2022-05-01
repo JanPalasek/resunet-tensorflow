@@ -16,7 +16,7 @@ def ResUNet(input_shape, classes: int, filters_root: int = 64, depth: int = 3):
     :return: Tensorflow model instance.
     """
     if classes < 1:
-        raise ValueError("There has to be prediction for at least 2 classes.")
+        raise ValueError("The number of classes must be larger than 1.")
     if not math.log(input_shape[0], 2).is_integer() or not math.log(input_shape[1], 2):
         raise ValueError(f"Input height ({input_shape[0]}) and width ({input_shape[1]}) must be power of two.")
     if 2 ** depth > min(input_shape[0], input_shape[1]):

@@ -12,7 +12,7 @@ python -m pip install git+https://github.com/JanPalasek/resunet-tensorflow
 After installing to your own project, you can import and instantiate the model. The model instance is a [standard Tensorflow 2.0 model](https://www.tensorflow.org/api_docs/python/tf/keras/Model), so you can use it accordingly.
 
 ```python
-from resunet.model import ResUNet
+from resunet import ResUNet
 
 # create model for inputs of sizes (128, 128, 1) for semantic segmentation into 2 classes
 # architecture will have 16 filters in the root and the depth of 3 blocks

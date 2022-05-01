@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="resunet",
-    version="1.1a",
+    version="1.1",
     package_dir={
         "": "src"
     },
