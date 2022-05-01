@@ -15,7 +15,7 @@ def ResUNet(input_shape, classes: int, filters_root: int = 64, depth: int = 3):
     :param depth: Depth of the architecture. Depth must be <= min(log_2(h), log_2(w)).
     :return: Tensorflow model instance.
     """
-    if classes < 2:
+    if classes < 1:
         raise ValueError("There has to be prediction for at least 2 classes.")
     if not math.log(input_shape[0], 2).is_integer() or not math.log(input_shape[1], 2):
         raise ValueError(f"Input height ({input_shape[0]}) and width ({input_shape[1]}) must be power of two.")
@@ -60,7 +60,11 @@ def ResUNet(input_shape, classes: int, filters_root: int = 64, depth: int = 3):
         layer = ResBlock(filters, strides=1)(layer)
 
     layer = Conv2D(filters=classes, kernel_size=1, strides=1, padding="same")(layer)
-    layer = Softmax()(layer)
+
+    if classes == 1:
+        layer = Activation(activation="sigmoid")(layer)
+    else:
+        layer = Softmax()(layer)
 
     output = layer
 

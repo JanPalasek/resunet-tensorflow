@@ -1,0 +1,27 @@
+{
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/venv/*/**": true
+      },
+
+    "python.pythonPath": ".\\venv\\Scripts\\python.exe",
+    "python.languageServer": "Pylance",
+
+    "python.testing.pytestArgs": [
+      "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true,
+
+    "[python]": {
+      "editor.detectIndentation" : false,
+      "editor.insertSpaces": true,
+      "editor.tabSize": 4
+    },
+
+    "python.analysis.extraPaths": [
+      "./resunet"
+    ]
+}
